@@ -1,0 +1,32 @@
+{
+  "name": "mm-app-eth",
+  "version": "1.0.0",
+  "description": "LedgerJS fake app binding to connect to metamask",
+  "main": "MetaMaskConnector.ts",
+  "scripts": {
+    "start": "ts-node test",
+    "lint": "prettier --write ."
+  },
+  "author": "Kevin Lambert",
+  "license": "ISC",
+  "dependencies": {
+    "@ethereumjs/common": "^2.6.2",
+    "@ethereumjs/tx": "^3.5.0",
+    "bignumber.js": "^9.0.2",
+    "eth-sig-util": "3.0.1",
+    "ethereumjs-util": "^7.1.5",
+    "ethers": "^5.6.9",
+    "express": "^4.16.3",
+    "node-metamask": "^1.1.2",
+    "rlp": "^3.0.0",
+    "web3": "^1.7.4",
+    "ws": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.3",
+    "@types/ws": "^5.1.2",
+    "prettier": "2.7.1",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
+  }
+}
