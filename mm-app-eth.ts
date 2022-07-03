@@ -29,6 +29,52 @@ export default class Eth {
     };
   }
 
+  async signTransactionAndBroadCast(
+    path: string | null,
+    rawTxHex: string,
+    resolution?: null
+  ): Promise<{
+    v: string;
+    s: string;
+    r: string;
+  }> {
+    const address = await this.signer.getAddress();
+
+    const txRaw = ethers.utils.parseTransaction(`0x${rawTxHex}`);
+    const tx = {
+      to: txRaw.to,
+      from: address,
+      nonce: txRaw.nonce.toString(),
+      gasLimit: txRaw.gasLimit?.toHexString(),
+      gasPrice: txRaw.gasPrice?.toHexString(),
+      // data: txRaw.data || undefined, // Not working when we have data ?
+      value: txRaw.value.toHexString(),
+      chainId: txRaw.chainId,
+      type: '0',
+    };
+    const txHash = await this.provider.send('eth_sendTransaction', [tx]);
+
+    const broadcastedTx = await this.provider.getTransaction(txHash);
+
+    const r = broadcastedTx.r!.slice(2);
+    const s = broadcastedTx.s!.slice(2);
+    const v = Buffer.from(broadcastedTx.v!.toString(16), 'hex')
+      .toString('hex')
+      .padStart(2, '0');
+
+    const signature = ethers.utils.joinSignature({
+      r: broadcastedTx.r!,
+      s: broadcastedTx.s!,
+      v: broadcastedTx.v!,
+    });
+
+    return {
+      r,
+      s,
+      v,
+    };
+  }
+
   async signTransaction(
     path: string | null,
     rawTxHex: string,
@@ -37,43 +83,7 @@ export default class Eth {
     v: string;
     s: string;
     r: string;
-    signature: string;
   }> {
-    // This is signing AND broadcasting
-    // const txRaw = ethers.utils.parseTransaction(`0x${rawTxHex}`);
-    // const address = await this.signer.getAddress();
-    // const tx = {
-    //   to: txRaw.to,
-    //   from: address,
-    //   nonce: txRaw.nonce.toString(),
-    //   gasLimit: txRaw.gasLimit?.toHexString(),
-    //   gasPrice: txRaw.gasPrice?.toHexString(),
-    //   // data: txRaw.data || undefined,
-    //   value: txRaw.value.toHexString(),
-    //   chainId: txRaw.chainId,
-    //   type: '0',
-    // };
-    // console.log({ tx });
-    // const txHash = await this.provider.send('eth_sendTransaction', [tx]);
-    // const broadcastedTx = await this.provider.getTransaction(txHash);
-    // const r = broadcastedTx.r!.slice(2);
-    // const s = broadcastedTx.s!.slice(2);
-    // const v = Buffer.from(broadcastedTx.v!.toString(16), 'hex')
-    //   .toString('hex')
-    //   .padStart(2, '0');
-    // const signature = ethers.utils.joinSignature({
-    //   r: broadcastedTx.r!,
-    //   s: broadcastedTx.s!,
-    //   v: broadcastedTx.v!,
-    // });
-
-    // return {
-    //   r,
-    //   s,
-    //   v,
-    //   signature,
-    // };
-
     const address = await this.signer.getAddress();
     const signature = await this.provider.send('eth_sign', [
       address,
@@ -91,7 +101,6 @@ export default class Eth {
       r,
       s,
       v,
-      signature,
     };
   }
 
@@ -102,7 +111,6 @@ export default class Eth {
     v: number;
     s: string;
     r: string;
-    signature: string;
   }> {
     const message = Buffer.from(messageHex, 'hex').toString('ascii');
     const signature = await this.signer.signMessage(message);
@@ -116,7 +124,6 @@ export default class Eth {
       r,
       s,
       v,
-      signature,
     };
   }
 
@@ -128,7 +135,6 @@ export default class Eth {
     v: number;
     s: string;
     r: string;
-    signature: string;
   }> {
     const message = keccak(
       Buffer.concat([
@@ -153,7 +159,6 @@ export default class Eth {
       r,
       s,
       v,
-      signature,
     };
   }
 
@@ -165,7 +170,6 @@ export default class Eth {
     v: number;
     s: string;
     r: string;
-    signature: string;
   }> {
     const { domain, types, message } = jsonMessage;
     const { EIP712Domain, ...typesRest } = types;
@@ -185,7 +189,6 @@ export default class Eth {
       r,
       s,
       v,
-      signature,
     };
   }
 }
