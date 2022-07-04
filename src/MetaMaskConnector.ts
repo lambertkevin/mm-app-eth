@@ -3,6 +3,7 @@ import http from 'http';
 import WebSocket from 'ws';
 import express from 'express';
 import RemoteMetaMaskProvider from './RemoteMetaMaskProvider';
+import { ethers } from 'ethers';
 
 const DEFAULT_PORT = 3333;
 
@@ -135,8 +136,8 @@ export class MetaMaskConnector {
     });
   }
 
-  getProvider(): RemoteMetaMaskProvider {
-    return new RemoteMetaMaskProvider(this);
+  getProvider(): ethers.providers.Web3Provider {
+    return new ethers.providers.Web3Provider(new RemoteMetaMaskProvider(this));
   }
 }
 

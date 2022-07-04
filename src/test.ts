@@ -35,8 +35,7 @@ const connector = new MetaMaskConnector({
 
 connector.start().then(async () => {
   // Now go to http://localhost:3333 in your MetaMask enabled web browser.
-
-  const provider = new ethers.providers.Web3Provider(connector.getProvider());
+  const provider = connector.getProvider();
   const signer = provider.getSigner();
 
   const eth = new Eth(provider);
