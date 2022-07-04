@@ -2,7 +2,7 @@
   "name": "mm-app-eth",
   "version": "1.0.0",
   "description": "LedgerJS fake app binding to connect to metamask",
-  "main": "MetaMaskConnector.ts",
+  "main": "index.ts",
   "scripts": {
     "start": "ts-node test",
     "lint": "prettier --write ."
