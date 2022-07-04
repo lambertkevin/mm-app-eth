@@ -12,6 +12,8 @@ export default class Eth {
     this.signer = this.provider.getSigner();
   }
 
+  setLoadConfig(): void {}
+
   async getAddress(
     path?: string,
     boolDisplay?: boolean,
