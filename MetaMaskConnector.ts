@@ -22,7 +22,10 @@ export class MetaMaskConnector {
 
   async start(): Promise<void> {
     this._app = express();
-    this._app.use(express.static(path.resolve(__dirname, 'client')));
+    console.log(path.join(__dirname, 'client'));
+    console.log(path.join(path.resolve('.'), 'client'));
+    console.log(path.resolve('./client'));
+    this._app.use(express.static(path.join(__dirname, 'client')));
     this._wss = await this._runServer();
     await this._initialize();
   }
