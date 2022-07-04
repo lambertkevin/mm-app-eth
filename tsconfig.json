@@ -14,8 +14,7 @@
     "esModuleInterop": true,
     "jsx": "react",
     "lib": ["es2020", "dom"],
-    "composite": true, // required on the dependency project for references to work
-    "target": "ES6" // Target environment. Most modern browsers support ES6, but you may want to set it to newer or older. (defaults to ES3)
+    "composite": true // required on the dependency project for references to work,
   },
   "include": ["*.ts", "*.json"]
 }

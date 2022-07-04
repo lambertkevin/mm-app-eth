@@ -6,9 +6,9 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "start": "ts-node test",
-    "build": "tsc",
+    "build": "tsc --module commonjs",
     "lint": "prettier --write .",
-    "prepare": "tsc --build"
+    "prepare": "tsc  --module commonjs"
   },
   "author": "Kevin Lambert",
   "license": "ISC",
