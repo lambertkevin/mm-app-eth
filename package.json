@@ -5,7 +5,9 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node test",
-    "lint": "prettier --write ."
+    "build": "tsc",
+    "lint": "prettier --write .",
+    "prepare": "tsc --build"
   },
   "author": "Kevin Lambert",
   "license": "ISC",
