@@ -5,10 +5,10 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "start": "ts-node test",
-    "build": "tsc --module commonjs",
+    "start": "ts-node ./src/test",
+    "build": "tsc --build",
     "lint": "prettier --write .",
-    "prepare": "tsc  --module commonjs"
+    "prepare": "tsc --build"
   },
   "author": "Kevin Lambert",
   "license": "ISC",

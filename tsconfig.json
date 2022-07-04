@@ -6,9 +6,10 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
     "moduleResolution": "node",
     "downlevelIteration": true,
-    "rootDir": ".",
+    "rootDir": "src",
     "outDir": "lib", // if out path for a file is same as its src path, nothing will be emitted
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -16,5 +17,5 @@
     "lib": ["es2020", "dom"],
     "composite": true // required on the dependency project for references to work,
   },
-  "include": ["*.ts", "*.json"]
+  "include": ["src/**/*.ts", "src/**/*.json"]
 }
