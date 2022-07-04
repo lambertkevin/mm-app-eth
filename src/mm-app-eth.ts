@@ -107,7 +107,7 @@ export class Eth {
   }
 
   async signPersonalMessage(
-    path: 'string' | null,
+    path: string | null,
     messageHex: string
   ): Promise<{
     v: number;
