@@ -2,7 +2,7 @@ import type MetaMaskConnector from './MetaMaskConnector';
 
 type Callback = (err?: Error | null, payload?: Record<string, any>) => any;
 
-export default class RemoteMetaMaskProvider {
+export class RemoteMetaMaskProvider {
   private _connector: MetaMaskConnector;
   private _callbacks: Map<string, Callback>;
 
@@ -100,3 +100,5 @@ export default class RemoteMetaMaskProvider {
     this.send(payload, callback);
   }
 }
+
+export default RemoteMetaMaskProvider;

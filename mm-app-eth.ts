@@ -3,7 +3,7 @@ import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { ethers } from 'ethers';
 import { EIP712Message } from './types';
 
-export default class Eth {
+export class Eth {
   private provider: ethers.providers.Web3Provider;
   private signer: ethers.Signer;
 
@@ -194,3 +194,5 @@ export default class Eth {
     };
   }
 }
+
+export default Eth;

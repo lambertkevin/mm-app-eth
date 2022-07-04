@@ -6,7 +6,7 @@ import RemoteMetaMaskProvider from './RemoteMetaMaskProvider';
 
 const DEFAULT_PORT = 3333;
 
-export default class MetaMaskConnector {
+export class MetaMaskConnector {
   public config;
   private _app: ReturnType<typeof express> | undefined;
   private _wss: WebSocket.Server | undefined;
@@ -139,3 +139,5 @@ export default class MetaMaskConnector {
     return new RemoteMetaMaskProvider(this);
   }
 }
+
+export default MetaMaskConnector;
