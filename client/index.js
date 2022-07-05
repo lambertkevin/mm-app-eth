@@ -77,5 +77,10 @@
     return true;
   };
 
+  document.querySelector('#disconnect').onclick = () => {
+    socket.send('disconnect');
+    window.location.reload();
+  };
+
   return true;
 })(window);

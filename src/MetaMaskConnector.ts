@@ -60,6 +60,11 @@ export class MetaMaskConnector {
         ws.on('close', () => {
           delete this._ws;
         });
+        ws.on('message', (msg) => {
+          if (msg === 'disconnect') {
+            this.stop();
+          }
+        });
         this._ws = ws;
         if (this.config.onConnect) this.config.onConnect();
         return resolve();
