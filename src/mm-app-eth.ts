@@ -34,7 +34,7 @@ export class Eth {
   async signTransactionAndBroadCast(
     path: string | null,
     rawTxHex: string,
-    resolution?: null
+    resolution?: any
   ): Promise<{
     v: string;
     s: string;
@@ -80,7 +80,7 @@ export class Eth {
   async signTransaction(
     path: string | null,
     rawTxHex: string,
-    resolution?: null
+    resolution?: any
   ): Promise<{
     v: string;
     s: string;
@@ -193,6 +193,16 @@ export class Eth {
       v,
     };
   }
+
+  async provideERC20TokenInformation({
+    data,
+  }: {
+    data: Buffer;
+  }): Promise<boolean> {
+    return Promise.resolve(true);
+  }
+
+  async getAppConfiguration(): Promise<void> {}
 }
 
 export default Eth;
