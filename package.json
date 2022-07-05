@@ -8,7 +8,7 @@
     "start": "ts-node ./src/test",
     "build": "tsc --build",
     "lint": "prettier --write .",
-    "prepare": "tsc --build"
+    "prepare": "tsc --build && mkdir ./lib/client && cp ./client/* ./lib/client"
   },
   "author": "Kevin Lambert",
   "license": "ISC",

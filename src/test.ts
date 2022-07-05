@@ -47,74 +47,74 @@ connector.start().then(async () => {
   const balance = await signer.getBalance();
   console.log('Balance', ethers.utils.formatEther(balance));
 
-  // // Verify personal sign
-  const message = 'coucou';
-  const pmSig = await eth.signPersonalMessage(
-    null,
-    Buffer.from(message).toString('hex')
-  );
-  const pmSigLike = {
-    r: `0x${pmSig.r}`,
-    s: `0x${pmSig.s}`,
-    v: pmSig.v,
-  };
-  const pmSigJoinedSig = ethers.utils.joinSignature(pmSigLike);
-  console.log(
-    'Personal Message sig',
-    ethers.utils.verifyMessage(message, pmSigJoinedSig) === address
-      ? '✅'
-      : '❌'
-  );
+  // // // Verify personal sign
+  // const message = 'coucou';
+  // const pmSig = await eth.signPersonalMessage(
+  //   null,
+  //   Buffer.from(message).toString('hex')
+  // );
+  // const pmSigLike = {
+  //   r: `0x${pmSig.r}`,
+  //   s: `0x${pmSig.s}`,
+  //   v: pmSig.v,
+  // };
+  // const pmSigJoinedSig = ethers.utils.joinSignature(pmSigLike);
+  // console.log(
+  //   'Personal Message sig',
+  //   ethers.utils.verifyMessage(message, pmSigJoinedSig) === address
+  //     ? '✅'
+  //     : '❌'
+  // );
 
-  // Verify typedData sign with hashes
-  const { EIP712Domain, ...restTypes } = eip712.types;
-  const typedDataEncoder = ethers.utils._TypedDataEncoder.from(
-    restTypes as any
-  );
-  const hashedDomain = domainHash(eip712);
-  const hashMessage = messageHash(eip712);
-  const eip712HashSig = await eth.signEIP712HashedMessage(
-    null,
-    `0x${hashedDomain.toString('hex')}`,
-    `0x${hashMessage.toString('hex')}`
-  );
-  const eip712HashSigLike = {
-    r: `0x${eip712HashSig.r}`,
-    s: `0x${eip712HashSig.s}`,
-    v: eip712HashSig.v,
-  };
-  const eip712HashJoinedSig = ethers.utils.joinSignature(eip712HashSigLike);
-  console.log(
-    'EIP712 Hash sig',
-    ethers.utils.verifyTypedData(
-      eip712.domain,
-      restTypes as any,
-      eip712.message,
-      eip712HashJoinedSig
-    ) === address
-      ? '✅'
-      : '❌'
-  );
+  // // Verify typedData sign with hashes
+  // const { EIP712Domain, ...restTypes } = eip712.types;
+  // const typedDataEncoder = ethers.utils._TypedDataEncoder.from(
+  //   restTypes as any
+  // );
+  // const hashedDomain = domainHash(eip712);
+  // const hashMessage = messageHash(eip712);
+  // const eip712HashSig = await eth.signEIP712HashedMessage(
+  //   null,
+  //   `0x${hashedDomain.toString('hex')}`,
+  //   `0x${hashMessage.toString('hex')}`
+  // );
+  // const eip712HashSigLike = {
+  //   r: `0x${eip712HashSig.r}`,
+  //   s: `0x${eip712HashSig.s}`,
+  //   v: eip712HashSig.v,
+  // };
+  // const eip712HashJoinedSig = ethers.utils.joinSignature(eip712HashSigLike);
+  // console.log(
+  //   'EIP712 Hash sig',
+  //   ethers.utils.verifyTypedData(
+  //     eip712.domain,
+  //     restTypes as any,
+  //     eip712.message,
+  //     eip712HashJoinedSig
+  //   ) === address
+  //     ? '✅'
+  //     : '❌'
+  // );
 
-  // Verify typedData sign
-  const eip712Sign = await eth.signEIP712Message(null, eip712);
-  const eip712SigLike = {
-    r: `0x${eip712Sign.r}`,
-    s: `0x${eip712Sign.s}`,
-    v: eip712Sign.v,
-  };
-  const eip712JoinedSig = ethers.utils.joinSignature(eip712SigLike);
-  console.log(
-    'EIP 712 Full Object sig',
-    ethers.utils.verifyTypedData(
-      eip712.domain,
-      restTypes as any,
-      eip712.message,
-      eip712JoinedSig
-    ) === address
-      ? '✅'
-      : '❌'
-  );
+  // // Verify typedData sign
+  // const eip712Sign = await eth.signEIP712Message(null, eip712);
+  // const eip712SigLike = {
+  //   r: `0x${eip712Sign.r}`,
+  //   s: `0x${eip712Sign.s}`,
+  //   v: eip712Sign.v,
+  // };
+  // const eip712JoinedSig = ethers.utils.joinSignature(eip712SigLike);
+  // console.log(
+  //   'EIP 712 Full Object sig',
+  //   ethers.utils.verifyTypedData(
+  //     eip712.domain,
+  //     restTypes as any,
+  //     eip712.message,
+  //     eip712JoinedSig
+  //   ) === address
+  //     ? '✅'
+  //     : '❌'
+  // );
 
   // Sign transaction
   const nonce = await provider.getTransactionCount(address);
@@ -149,7 +149,9 @@ connector.start().then(async () => {
   const unsignedTx = new Transaction(ethTxObject, { common });
   const unsignedTxRaw = unsignedTx.raw();
   unsignedTxRaw[6] = Buffer.from([common.chainIdBN().toNumber()]);
-  const unsignedTxHex = Buffer.from(encode(unsignedTxRaw)).toString('hex');
+  // const unsignedTxHex = Buffer.from(encode(unsignedTxRaw)).toString('hex');
+  const unsignedTxHex =
+    'eb16845a00c58082520894cb3ead4d42848af765a0912f4479127936aaecc38806f05b59d3b2000080058080';
   const txSig = await eth.signTransaction(null, unsignedTxHex, null);
   console.log(
     'Transaction sig',
@@ -160,18 +162,18 @@ connector.start().then(async () => {
       ? '✅'
       : '❌'
   );
-  const signedTx = ethers.utils.serializeTransaction(
-    {
-      ...ethTxObject,
-      value,
-    },
-    {
-      r: `0x${txSig.r}`,
-      s: `0x${txSig.s}`,
-      v: parseInt(txSig.v, 16),
-    }
-  );
-  const result = await provider.sendTransaction(signedTx);
-  const confirmed = await result.wait();
-  console.log('Transaction broadcasting', { confirmed });
+  // const signedTx = ethers.utils.serializeTransaction(
+  //   {
+  //     ...ethTxObject,
+  //     value,
+  //   },
+  //   {
+  //     r: `0x${txSig.r}`,
+  //     s: `0x${txSig.s}`,
+  //     v: parseInt(txSig.v, 16),
+  //   }
+  // );
+  // const result = await provider.sendTransaction(signedTx);
+  // const confirmed = await result.wait();
+  // console.log('Transaction broadcasting', { confirmed });
 });
