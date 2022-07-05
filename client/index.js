@@ -82,5 +82,13 @@
     window.location.reload();
   };
 
+  w.addEventListener(
+    'beforeunload',
+    (e) => {
+      socket.send('disconnect');
+    },
+    false
+  );
+
   return true;
 })(window);
