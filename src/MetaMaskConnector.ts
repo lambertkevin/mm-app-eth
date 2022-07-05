@@ -63,7 +63,6 @@ export class MetaMaskConnector {
         ws.on('message', (msg) => {
           if (msg === 'disconnect') {
             this.stop();
-            process.exit(0);
           }
         });
         this._ws = ws;
