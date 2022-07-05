@@ -39,6 +39,7 @@ export class Eth {
     v: string;
     s: string;
     r: string;
+    txHash: string;
   }> {
     const address = await this.signer.getAddress();
 
@@ -74,6 +75,7 @@ export class Eth {
       r,
       s,
       v,
+      txHash,
     };
   }
 
