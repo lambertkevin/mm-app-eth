@@ -96,7 +96,7 @@ export class RemoteMetaMaskProvider {
   }
 
   // Define async send method
-  sendAsync(payload, callback): void {
+  sendAsync(payload: Record<string, any>, callback: Callback): void {
     this.send(payload, callback);
   }
 }

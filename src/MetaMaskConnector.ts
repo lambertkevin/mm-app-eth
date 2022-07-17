@@ -8,13 +8,13 @@ import { ethers } from 'ethers';
 const DEFAULT_PORT = 3333;
 
 export class MetaMaskConnector {
-  public config;
+  public config: Record<string, any>;
   private _app: ReturnType<typeof express> | undefined;
   private _wss: WebSocket.Server | undefined;
   private _ws: WebSocket | undefined;
   private _server: http.Server | undefined;
 
-  constructor(options) {
+  constructor(options: Record<string, any>) {
     this.config = {
       port: DEFAULT_PORT,
       ...options,
@@ -117,7 +117,7 @@ export class MetaMaskConnector {
     requiredAction: string
   ): Promise<{ requestId: string; result: Record<string, any> }> {
     return new Promise((resolve) => {
-      const onMsg = (msg) => {
+      const onMsg = (msg: { data: any; type: string; target: WebSocket }) => {
         const { responseAction, responseRequestId, responsePayload } =
           MetaMaskConnector.handleMessage(msg.data);
         if (

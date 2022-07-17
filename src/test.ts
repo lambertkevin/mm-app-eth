@@ -9,7 +9,7 @@ import Common from '@ethereumjs/common';
 import BigNumber from 'bignumber.js';
 import { keccak } from 'ethereumjs-util';
 
-const domainHash = (message) => {
+const domainHash = (message: any) => {
   return TypedDataUtils.hashStruct(
     'EIP712Domain',
     message.domain,
@@ -17,7 +17,7 @@ const domainHash = (message) => {
     true
   );
 };
-const messageHash = (message) => {
+const messageHash = (message: any) => {
   return TypedDataUtils.hashStruct(
     message.primaryType,
     message.message,

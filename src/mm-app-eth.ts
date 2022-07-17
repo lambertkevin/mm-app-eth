@@ -7,7 +7,7 @@ export class Eth {
   private provider: ethers.providers.Web3Provider;
   private signer: ethers.Signer;
 
-  constructor(_provider) {
+  constructor(_provider: ethers.providers.Web3Provider) {
     this.provider = _provider;
     this.signer = this.provider.getSigner();
   }
