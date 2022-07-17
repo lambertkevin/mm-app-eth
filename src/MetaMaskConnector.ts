@@ -1,11 +1,14 @@
+import fs from 'fs';
 import path from 'path';
 import http from 'http';
 import WebSocket from 'ws';
 import express from 'express';
-import RemoteMetaMaskProvider from './RemoteMetaMaskProvider';
 import { ethers } from 'ethers';
+import RemoteMetaMaskProvider from './RemoteMetaMaskProvider';
 
 const DEFAULT_PORT = 3333;
+
+const isBuiltInAsar = process?.mainModule?.filename?.indexOf('app.asar') !== -1;
 
 export class MetaMaskConnector {
   public config: Record<string, any>;
@@ -23,7 +26,13 @@ export class MetaMaskConnector {
 
   async start(): Promise<void> {
     this._app = express();
-    this._app.use(express.static(path.join('.', 'client')));
+    this._app.use(
+      express.static(
+        isBuiltInAsar
+          ? path.join(__dirname, 'build', 'mm-app-eth-client')
+          : path.join(__dirname, '..', 'client')
+      )
+    );
     this._wss = await this._runServer();
     await this._initialize();
   }
