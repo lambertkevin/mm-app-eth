@@ -149,9 +149,7 @@ connector.start().then(async () => {
   const unsignedTx = new Transaction(ethTxObject, { common });
   const unsignedTxRaw = unsignedTx.raw();
   unsignedTxRaw[6] = Buffer.from([common.chainIdBN().toNumber()]);
-  // const unsignedTxHex = Buffer.from(encode(unsignedTxRaw)).toString('hex');
-  const unsignedTxHex =
-    'eb16845a00c58082520894cb3ead4d42848af765a0912f4479127936aaecc38806f05b59d3b2000080058080';
+  const unsignedTxHex = Buffer.from(encode(unsignedTxRaw)).toString('hex');
   const txSig = await eth.signTransaction(null, unsignedTxHex, null);
   console.log(
     'Transaction sig',
@@ -162,18 +160,18 @@ connector.start().then(async () => {
       ? '✅'
       : '❌'
   );
-  // const signedTx = ethers.utils.serializeTransaction(
-  //   {
-  //     ...ethTxObject,
-  //     value,
-  //   },
-  //   {
-  //     r: `0x${txSig.r}`,
-  //     s: `0x${txSig.s}`,
-  //     v: parseInt(txSig.v, 16),
-  //   }
-  // );
-  // const result = await provider.sendTransaction(signedTx);
-  // const confirmed = await result.wait();
-  // console.log('Transaction broadcasting', { confirmed });
+  const signedTx = ethers.utils.serializeTransaction(
+    {
+      ...ethTxObject,
+      value,
+    },
+    {
+      r: `0x${txSig.r}`,
+      s: `0x${txSig.s}`,
+      v: parseInt(txSig.v, 16),
+    }
+  );
+  const result = await provider.sendTransaction(signedTx);
+  const confirmed = await result.wait();
+  console.log('Transaction broadcasting', { confirmed });
 });

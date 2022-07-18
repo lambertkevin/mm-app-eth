@@ -89,6 +89,7 @@ export class Eth {
     r: string;
   }> {
     const address = await this.signer.getAddress();
+    const { chainId } = ethers.utils.parseTransaction(`0x${rawTxHex}`);
     const signature = await this.provider.send('eth_sign', [
       address,
       `0x${keccak(Buffer.from(rawTxHex, 'hex')).toString('hex')}`,
@@ -97,14 +98,15 @@ export class Eth {
     const splitSig = ethers.utils.splitSignature(signature);
     const r = splitSig.r.slice(2);
     const s = splitSig.s.slice(2);
-    const v = Buffer.from(splitSig.v.toString(16), 'hex')
-      .toString('hex')
-      .padStart(2, '0');
+    const recoveryId = splitSig.v - 27; // 1 or 0
+    const vForEIP155 = chainId * 2 + recoveryId + 35;
+    const v = Buffer.from(vForEIP155.toString(16), 'hex').toString('hex');
+    const paddedV = v.length % 2 ? '0' + v : v;
 
     return {
       r,
       s,
-      v,
+      v: paddedV,
     };
   }
 
@@ -134,7 +136,8 @@ export class Eth {
   async signEIP712HashedMessage(
     path: string | null,
     domainSeparatorHex: string,
-    hashStructMessageHex: string
+    hashStructMessageHex: string,
+    chainId?: number
   ): Promise<{
     v: number;
     s: string;
@@ -169,7 +172,8 @@ export class Eth {
   async signEIP712Message(
     path: string | null,
     jsonMessage: EIP712Message,
-    fullImplem = false
+    fullImplem = false,
+    _chainId?: number
   ): Promise<{
     v: number;
     s: string;
@@ -187,6 +191,7 @@ export class Eth {
     const splitSig = ethers.utils.splitSignature(signature);
     const r = splitSig.r.slice(2);
     const s = splitSig.s.slice(2);
+    const chainId = _chainId || domain.chainId;
     const v = splitSig.v;
 
     return {
